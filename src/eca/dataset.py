@@ -38,7 +38,7 @@ class ECADataset():
             sample_list += get_sample_list(self.data_directory, DataSource.ROBUST)
 
         if self.include_cropped:
-            sample_list = add_cropped_samples(self.data_directory, self.sample_list)
+            sample_list = add_cropped_samples(self.data_directory, sample_list)
 
         return sample_list
 
