@@ -3,11 +3,12 @@ A simple python loader for the Endoscopic Content Area (ECA) dataset.
 
 ## Installation
 To use this dataset, first ensure you have a synapse account and access to the [ECA dataset](https://www.synapse.org/ecadataset). 
-Then simply install from pip...
+Then simply install from pip, and run the download command...
 ```bash
 pip install ecadataset
+download-eca -d path/to/dataset
 ```
-On first usage, you'll be prompted for your synapse credentials and the data will be downloaded.
+You'll be prompted for your synapse credentials and the data will be downloaded.
 
 ## Usage
 
@@ -17,8 +18,8 @@ from eca import ECADataset, DataSource, AnnotationType
 
 # Create dataset object...
 dataset = ECADataset(
-  # Path to the dataset directory. If not found the dataset will be downloaded.
-  data_directory="path-to-dataset",
+  # Path to the directory containing the dataset.
+  data_directory="path/to/dataset",
   # Options are: DataSource.CHOLEC, DataSource.ROBUST, and DataSource.BOTH.
   data_source=DataSource.BOTH,
   # Options are: AnnotationType.AREA, AnnotationType.MASK, and AnnotationType.BOTH.
