@@ -17,11 +17,16 @@ from eca import ECADataset, DataSource, AnnotationType
 
 # Create dataset object...
 dataset = ECADataset(
-  data_directory="path-to-dataset",     # Path to the dataset directory. If not found the dataset will be downloaded.
-  data_source=DataSource.BOTH,          # Options are: DataSource.CHOLEC, DataSource.ROBUST, and DataSource.BOTH.
-  annotation_type=AnnotationType.BOTH,  # Options are: AnnotationType.AREA, AnnotationType.MASK, and AnnotationType.BOTH.
-  include_cropped=True,                 # Whether to use cropping to provide additonal samples without a content area.
-  include_source_info=True              # Whether to include information about where the frame was taken from.
+  # Path to the dataset directory. If not found the dataset will be downloaded.
+  data_directory="path-to-dataset",
+  # Options are: DataSource.CHOLEC, DataSource.ROBUST, and DataSource.BOTH.
+  data_source=DataSource.BOTH,
+  # Options are: AnnotationType.AREA, AnnotationType.MASK, and AnnotationType.BOTH.
+  annotation_type=AnnotationType.BOTH,
+  # Whether to use cropping to provide additonal samples without a content area.
+  include_cropped=True,
+  # Whether to include information about where the frame was taken from.
+  include_source_info=True
 )
 
 # Iterate through the first 10 samples, slicing is supported...
