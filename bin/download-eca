@@ -25,6 +25,6 @@ def download(dataset_path):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument('-d', dest='directory', default="eca-data")
+    parser.add_argument('-d', '--dir', dest='directory', default="eca-data", help="The directory to download the dataset to", metavar="\b")
     args = parser.parse_args()
     download(args.directory)
