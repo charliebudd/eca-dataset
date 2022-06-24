@@ -1,4 +1,4 @@
-from setuptools import setup, find_packages
+from setuptools import setup
 
 setup(
     name='ecadataset',
@@ -10,5 +10,6 @@ setup(
     license='MIT',
     package_dir={'':'src'},
     packages=['eca'],
+    scripts=['bin/download-eca'],
     install_requires=['synapseclient', 'pillow']
 )

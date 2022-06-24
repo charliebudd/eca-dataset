@@ -1,0 +1,30 @@
+#!/usr/bin/env python
+
+import synapseclient
+import synapseutils
+from getpass import getpass
+from os import devnull
+from contextlib import redirect_stdout
+import argparse
+
+ECA_SYNAPSE_ID = "syn32148000"
+
+def download(dataset_path):
+
+    print("Please provide your synapse credentials to download the dataset...")
+    username = input("Synapse username:")
+    password = getpass("Synapse password:")
+
+    syn = synapseclient.Synapse()
+    syn.login(username, password)
+
+    print("Downloading ECA datset to " + dataset_path + "...")
+    with redirect_stdout(open(devnull, 'w')):
+        synapseutils.syncFromSynapse(syn, ECA_SYNAPSE_ID, path=dataset_path, manifest="suppress")
+    print("Download finished.\n")
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-d', dest='directory', default="eca-data")
+    args = parser.parse_args()
+    download(args.directory)

@@ -1,12 +1,8 @@
-import synapseclient
-import synapseutils
-from os import path, devnull
-from getpass import getpass
 from enum import Flag, auto
+from os import path
 from json import load
 from math import sqrt, floor
 from PIL import Image
-from contextlib import redirect_stdout
 
 class DataSource(Flag):
     CHOLEC = auto()
@@ -27,14 +23,24 @@ class ECADataset():
         self.include_cropped = include_cropped
         self.include_source_info = include_source_info
 
-        self.sample_list = []
+        try:
+            self.sample_list = self.__get_sample_list()
+        except FileNotFoundError:
+            raise FileNotFoundError(ERROR_MESSAGE.format(path.abspath(self.data_directory)))
+
+    def __get_sample_list(self):
+        sample_list = []
+
         if DataSource.CHOLEC in self.data_source:
-            self.sample_list += get_sample_list(data_directory, DataSource.CHOLEC)
+            sample_list += get_sample_list(self.data_directory, DataSource.CHOLEC)
+
         if DataSource.ROBUST in self.data_source:
-            self.sample_list += get_sample_list(data_directory, DataSource.ROBUST)
+            sample_list += get_sample_list(self.data_directory, DataSource.ROBUST)
 
         if self.include_cropped:
-            self.sample_list = add_cropped_samples(self.data_directory, self.sample_list)
+            sample_list = add_cropped_samples(self.data_directory, self.sample_list)
+
+        return sample_list
 
     def __len__(self):
         return len(self.sample_list)
@@ -69,33 +75,20 @@ class ECADataset():
 # ========================================
 # Some helper methods...
 
-syn = None
+
+ERROR_MESSAGE = """
+Some of the requested data cannot be found at path \"{}\"...
+Please provide the correct path to the dataset, or download the dataset with the command \"download-eca\"...
+"""
 
 dataset_info = {
     DataSource.CHOLEC: {"name": "cholec-eca", "pretty_name": "CholecECA", "synapse_id": "syn32150390"},
     DataSource.ROBUST: {"name": "robust-eca", "pretty_name": "RobustECA", "synapse_id": "syn32150393"}
 }
 
-def get_synapse_session(data_directory):
-    global syn
-    if syn == None:
-        syn = synapseclient.Synapse()
-        print("Some of the requested data cannot be found at path \"" + path.abspath(data_directory) + "\"...\n")
-        print("Please provide the correct path to the dataset, or provide your synapse credentials to download the dataset...")
-        username = input("Synapse username:")
-        password = getpass("Synapse password:")
-        syn.login(username, password)
-    return syn
-
 def get_sample_list(data_directory, dataset_source):
     info = dataset_info[dataset_source]
     dataset_path = path.join(data_directory, info['name'])
-    if not path.exists(dataset_path):
-        syn = get_synapse_session(data_directory)
-        print("Downloading " + info['pretty_name'] + " to " + dataset_path + "...")
-        with redirect_stdout(open(devnull, 'w')):
-            synapseutils.syncFromSynapse(syn, info['synapse_id'], path=dataset_path, manifest="suppress")
-        print("Download finished.\n")
     with open(path.join(dataset_path, "manifest.json")) as file:
         return load(file)
 
