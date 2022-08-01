@@ -1,9 +1,8 @@
 # Endoscopic Content Area (ECA) dataset
-A simple python loader for the Endoscopic Content Area (ECA) dataset.
+A simple python loader for the [Endoscopic Content Area (ECA) dataset](https://doi.org/10.7303/syn32148000).
 
 ## Installation
-To use this dataset, first ensure you have a synapse account and access to the [ECA dataset](https://www.synapse.org/ecadataset). 
-Then simply install from pip, and run the download command...
+To use this dataset, first ensure you have a synapse account, then simply install from pip and run the download command...
 ```bash
 pip install ecadataset
 download-eca -d path/to/dataset

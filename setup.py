@@ -6,7 +6,7 @@ setup(
     description='Python loader for the Endoscopic Content Area (ECA) dataset.',
     author='Charlie Budd',
     author_email='charles.budd@kcl.ac.uk',
-    url='https://github.com/charliebudd/torch-content-area',
+    url='https://github.com/charliebudd/eca-dataset',
     license='MIT',
     package_dir={'':'src'},
     packages=['eca'],
