@@ -9,11 +9,12 @@ import argparse
 
 ECA_SYNAPSE_ID = "syn32148000"
 
-def download(dataset_path):
+def download(dataset_path, username, password):
 
-    print("Please provide your synapse credentials to download the dataset...")
-    username = input("Synapse username:")
-    password = getpass("Synapse password:")
+    if username == None or password == None:
+        print("Please provide your synapse credentials to download the dataset...")
+        username = input("Synapse username:")
+        password = getpass("Synapse password:")
 
     syn = synapseclient.Synapse()
     syn.login(username, password)
@@ -26,5 +27,7 @@ def download(dataset_path):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('-d', '--dir', dest='directory', default="eca-data", help="The directory to download the dataset to", metavar="\b")
+    parser.add_argument('-u', '--user', dest='username', default=None, help="Synapse username", metavar="\b")
+    parser.add_argument('-p', '--pass', dest='password', default=None, help="Synapse password", metavar="\b")
     args = parser.parse_args()
-    download(args.directory)
+    download(args.directory, args.username, args.password)

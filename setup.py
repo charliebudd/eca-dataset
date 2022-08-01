@@ -11,5 +11,5 @@ setup(
     package_dir={'':'src'},
     packages=['eca'],
     scripts=['bin/download-eca'],
-    install_requires=['synapseclient', 'pillow']
+    install_requires=['synapseclient', 'pillow', 'numpy']
 )

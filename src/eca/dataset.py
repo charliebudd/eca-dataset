@@ -48,12 +48,13 @@ class ECADataset():
     def __getitem__(self, key):
 
         if isinstance(key, slice):
-            indices =  range(*key.indices(len(self)))
+            indices = range(*key.indices(len(self)))
             return (self[i] for i in indices)
             
         sample = self.sample_list[key]
         
         frame = Image.open(path.join(self.data_directory, sample['image_file']))
+        frame.load()
         if self.include_cropped and sample['crop'] != None:
             frame = frame.crop(sample['crop'])
         result = (frame,)
@@ -63,6 +64,7 @@ class ECADataset():
 
         if AnnotationType.MASK in self.annotation_type:
             mask = Image.open(path.join(self.data_directory, sample['mask_file']))
+            mask.load()
             if self.include_cropped and sample['crop'] != None:
                 mask = mask.crop(sample['crop'])
             result = (*result, mask)
@@ -126,7 +128,8 @@ def add_cropped_samples(data_directory, samples):
         sample['crop'] = None
         new_samples.append(sample.copy())
         if sample['content_area'] != None:
-            image_size = Image.open(path.join(data_directory, sample['mask_file'])).size
+            with Image.open(path.join(data_directory, sample['mask_file'])) as image:
+                image_size = image.size
             sample['crop'] = calculate_optimal_crop(sample['content_area'], image_size)
             sample['content_area'] = None
             new_samples.append(sample)
