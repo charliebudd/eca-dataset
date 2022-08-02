@@ -1,10 +1,15 @@
 # Endoscopic Content Area (ECA) dataset
-A simple python loader for the [Endoscopic Content Area (ECA) dataset](https://doi.org/10.7303/syn32148000).
+A simple python loader for the [Endoscopic Content Area (ECA) dataset](https://doi.org/10.7303/syn32148000). An implementation of the [hausdorff distance](https://en.wikipedia.org/wiki/Hausdorff_distance), optimised for content areas, is also included in the package.
+
+[![Build Status](https://github.com/charliebudd/eca-dataset/actions/workflows/release.yml/badge.svg)](https://github.com/charliebudd/eca-dataset/actions/workflows/release.yml)
 
 ## Installation
-To use this dataset, first ensure you have a synapse account, then simply install from pip and run the download command...
+To use this dataset, first ensure you have a synapse account, then simply install from pip...
 ```bash
 pip install ecadataset
+```
+and run the download command...
+```bash
 download-eca -d path/to/dataset
 ```
 You'll be prompted for your synapse credentials and the data will be downloaded.
@@ -13,7 +18,7 @@ You'll be prompted for your synapse credentials and the data will be downloaded.
 
 ```python
 import matplotlib.pyplot as plt
-from eca import ECADataset, DataSource, AnnotationType
+from eca import ECADataset, DataSource, AnnotationType, content_area_hausdorff
 
 # Create dataset object...
 dataset = ECADataset(
@@ -44,5 +49,11 @@ for image, area, mask, info in dataset[:10]:
     plt.subplot(122)
     plt.imshow(mask)
     plt.show()
+    
+    # Guessing the content area circle and scoring it against the ground truth...
+    width, height = image.size
+    area_guess = (width//2, height//2, width//2)
+    score, _ = content_area_hausdorff(area_guess, area, (height, width))
+    print(score)
 ```
 
