@@ -16,14 +16,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Install dependencies
-        run: pip install --upgrade pip && pip install tox
-      - name: Install Package
+      - name: Install Build Dependencies
+        run: pip install --upgrade pip && pip install build
+      - name: Build Package
+        run: python -m build
+      - name: Install Test Dependencies
+        run: pip install parameterized git+https://github.com/deepmind/surface-distance.git
+      - name: Install Package from Local
         run: pip install .
       - name: Download Dataset
         run: download-eca -u ${{ secrets.SYNAPSE_USERNAME }} -p ${{ secrets.SYNAPSE_PASSWORD }}
       - name: Run Tests
-        run: tox
+        run: python -m unittest
 
   publish_package_to_test_pypi:
     name: Publish Package to Test PyPI
@@ -32,8 +36,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Install dependencies
-        run: pip install --upgrade pip && pip install build tox
+      - name: Install Build Dependencies
+        run: pip install --upgrade pip && pip install build
       - name: Build Package
         run: python -m build
       - name: Publish Package to TestPyPI
@@ -42,12 +46,14 @@ jobs:
           user: __token__
           password: ${{ secrets.TEST_PYPI_API_TOKEN }}
           repository_url: https://test.pypi.org/legacy/
-      - name: Install from TestPyPI
+      - name: Install Test Dependencies
+        run: pip install parameterized git+https://github.com/deepmind/surface-distance.git
+      - name: Install Package from PyPI
         run: pip install --extra-index-url https://test.pypi.org/simple/ ecadataset
       - name: Download Dataset
         run: download-eca -u ${{ secrets.SYNAPSE_USERNAME }} -p ${{ secrets.SYNAPSE_PASSWORD }}
       - name: Run Tests
-        run: tox --skip-pkg-install
+        run: python -m unittest
 
   publish_package_to_pypi:
     name: Publish Package to PyPI
@@ -56,8 +62,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Install dependencies
-        run: pip install --upgrade pip && pip install build tox
+      - name: Install Build Dependencies
+        run: pip install --upgrade pip && pip install build
       - name: Build Package
         run: python -m build
       - name: Publish Package to PyPI
@@ -65,9 +71,11 @@ jobs:
         with:
           user: __token__
           password: ${{ secrets.PYPI_API_TOKEN }}
-      - name: Install from PyPI
+      - name: Install Test Dependencies
+        run: pip install parameterized git+https://github.com/deepmind/surface-distance.git
+      - name: Install Package from PyPI
         run: pip install ecadataset
       - name: Download Dataset
         run: download-eca -u ${{ secrets.SYNAPSE_USERNAME }} -p ${{ secrets.SYNAPSE_PASSWORD }}
       - name: Run Tests
-        run: tox --skip-pkg-install
+        run: python -m unittest
