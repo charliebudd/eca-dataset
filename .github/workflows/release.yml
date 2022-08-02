@@ -43,7 +43,7 @@ jobs:
           password: ${{ secrets.TEST_PYPI_API_TOKEN }}
           repository_url: https://test.pypi.org/legacy/
       - name: Install from TestPyPI
-        run: pip install -i https://test.pypi.org/simple/ ecadataset
+        run: pip install --extra-index-url https://test.pypi.org/simple/ ecadataset
       - name: Download Dataset
         run: download-eca -u ${{ secrets.SYNAPSE_USERNAME }} -p ${{ secrets.SYNAPSE_PASSWORD }}
       - name: Run Tests
