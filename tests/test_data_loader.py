@@ -1,3 +1,4 @@
+import os
 import unittest
 from PIL import Image
 from typing import Sequence
@@ -42,6 +43,3 @@ class TestDataLoader(unittest.TestCase):
         subset = dataset[key]
         for sample, origin_index in zip(subset, indices):
             self.assertEqual(sample[2], dataset[origin_index][2])
-
-if __name__ == '__main__':
-    unittest.main()

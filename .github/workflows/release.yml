@@ -11,37 +11,29 @@ on:
       - 'v*'
 
 jobs:
-  build-and-test-package:
-    name: Build and Test Package
+  test-package:
+    name: Test Package
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
-        with:
-          python-version: '3.x'
       - name: Install dependencies
-        run: pip install build
-      - name: Build Package
-        run: python -m build
+        run: pip install --upgrade pip && pip install tox
       - name: Install Package
-        run: pip install -e .
+        run: pip install .
       - name: Download Dataset
         run: download-eca -u ${{ secrets.SYNAPSE_USERNAME }} -p ${{ secrets.SYNAPSE_PASSWORD }}
       - name: Run Tests
-        run: python setup.py test
+        run: tox
 
-  publish-to-testpypi:
-    name: Publish To TestPyPI
+  publish_package_to_test_pypi:
+    name: Publish Package to Test PyPI
     if: startsWith(github.ref, 'refs/tags/v')
-    needs: build-and-test-package
+    needs: test-package
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
-        with:
-          python-version: '3.x'
       - name: Install dependencies
-        run: pip install build
+        run: pip install --upgrade pip && pip install build tox
       - name: Build Package
         run: python -m build
       - name: Publish Package to TestPyPI
@@ -50,28 +42,25 @@ jobs:
           user: __token__
           password: ${{ secrets.TEST_PYPI_API_TOKEN }}
           repository_url: https://test.pypi.org/legacy/
-      - name: Install from PyPI
+      - name: Install from TestPyPI
         run: pip install -i https://test.pypi.org/simple/ ecadataset
       - name: Download Dataset
         run: download-eca -u ${{ secrets.SYNAPSE_USERNAME }} -p ${{ secrets.SYNAPSE_PASSWORD }}
       - name: Run Tests
-        run: python setup.py test
+        run: tox --skip-pkg-install
 
-  publish-to-pypi:
-    name: Publish Wheels To PyPI
+  publish_package_to_pypi:
+    name: Publish Package to PyPI
     if: startsWith(github.ref, 'refs/tags/v')
-    needs: publish-to-testpypi
+    needs: publish_package_to_test_pypi
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
-        with:
-          python-version: '3.x'
       - name: Install dependencies
-        run: pip install build
+        run: pip install --upgrade pip && pip install build tox
       - name: Build Package
         run: python -m build
-      - name: Publish Package to TestPyPI
+      - name: Publish Package to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
           user: __token__
@@ -81,4 +70,4 @@ jobs:
       - name: Download Dataset
         run: download-eca -u ${{ secrets.SYNAPSE_USERNAME }} -p ${{ secrets.SYNAPSE_PASSWORD }}
       - name: Run Tests
-        run: python setup.py test
+        run: tox --skip-pkg-install
