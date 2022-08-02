@@ -11,5 +11,7 @@ setup(
     package_dir={'':'src'},
     packages=['eca'],
     scripts=['bin/download-eca'],
-    install_requires=['synapseclient', 'pillow', 'numpy']
+    install_requires=['synapseclient', 'pillow', 'numpy'],
+    test_suite='tests',
+    tests_require=['parameterized', 'Surface-Distance-Based-Measures@git+https://github.com/deepmind/surface-distance.git']
 )

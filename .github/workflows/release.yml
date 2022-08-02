@@ -28,7 +28,7 @@ jobs:
       - name: Download Dataset
         run: download-eca -u ${{ secrets.SYNAPSE_USERNAME }} -p ${{ secrets.SYNAPSE_PASSWORD }}
       - name: Run Tests
-        run: python -m unittest discover -s tests
+        run: python setup.py test
 
   publish-to-testpypi:
     name: Publish To TestPyPI
@@ -55,7 +55,7 @@ jobs:
       - name: Download Dataset
         run: download-eca -u ${{ secrets.SYNAPSE_USERNAME }} -p ${{ secrets.SYNAPSE_PASSWORD }}
       - name: Run Tests
-        run: python -m unittest discover -s tests
+        run: python setup.py test
 
   publish-to-pypi:
     name: Publish Wheels To PyPI
@@ -81,4 +81,4 @@ jobs:
       - name: Download Dataset
         run: download-eca -u ${{ secrets.SYNAPSE_USERNAME }} -p ${{ secrets.SYNAPSE_PASSWORD }}
       - name: Run Tests
-        run: python -m unittest discover -s tests
+        run: python setup.py test

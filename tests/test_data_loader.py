@@ -1,6 +1,7 @@
 import unittest
 from PIL import Image
 from typing import Sequence
+
 from eca import ECADataset, DataSource, AnnotationType
 
 CHOLEC_SAMPLE_COUNT = 3929

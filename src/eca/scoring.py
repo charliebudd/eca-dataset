@@ -1,8 +1,5 @@
 import numpy as np
 
-MISS_THRESHOLD=0.5
-BAD_MISS_THRESHOLD=1.0
-
 class Line():
     def __init__(self, a, b) -> None:
         self.a = np.array(a)
@@ -95,8 +92,10 @@ def make_polygon(frame_size, circle):
         d = np.sqrt(r**2 - (y - 0)**2)
         if x-d > 0: intersections.append((x-d, 0)); is_line.append(True)
         if x+d < w: intersections.append((x+d, 0)); is_line.append(False)
+        if len(is_line) == 0:
+            intersections.append((w, 0)); is_line.append(True)
 
-    if len(is_line) == 0 or is_line[-1]:
+    if len(is_line) > 0 and is_line[-1]:
         intersections.append((w, 0)); is_line.append(True)
     
     # Right edge
@@ -105,7 +104,7 @@ def make_polygon(frame_size, circle):
         if y-d > 0: intersections.append((w, y-d)); is_line.append(True)
         if y+d < h: intersections.append((w, y+d)); is_line.append(False)
     
-    if is_line[-1]:
+    if len(is_line) > 0 and is_line[-1]:
         intersections.append((w, h)); is_line.append(True)
 
     # Bottom edge
@@ -114,7 +113,7 @@ def make_polygon(frame_size, circle):
         if x+d < w: intersections.append((x+d, h)); is_line.append(True)
         if x-d > 0: intersections.append((x-d, h)); is_line.append(False)
 
-    if is_line[-1]:
+    if len(is_line) > 0 and is_line[-1]:
         intersections.append((0, h)); is_line.append(True)
 
     # Left edge
@@ -123,7 +122,7 @@ def make_polygon(frame_size, circle):
         if y+d < h: intersections.append((0, y+d)); is_line.append(True)
         if y-d > 0: intersections.append((0, y-d)); is_line.append(False)
 
-    if is_line[-1]:
+    if len(is_line) > 0 and is_line[-1]:
         intersections.append((0, 0)); is_line.append(True)
 
     if len(intersections) == 0:
@@ -156,7 +155,7 @@ def get_polygon_points(polygon, n_points):
 
     for seg, length in zip(polygon, lengths):
 
-        # No need to discretise lines, finaly point pair 
+        # No need to discretise lines, final point pair 
         # will never be in the middle of the line
         if isinstance(seg, Line):
             points.append(seg.b)
