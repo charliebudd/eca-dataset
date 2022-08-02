@@ -1,8 +1,11 @@
 from setuptools import setup
 
+import versioneer
+
 setup(
     name='ecadataset',
-    version='0.1.0',
+    version=versioneer.get_version(),
+    cmdclass=versioneer.get_cmdclass(),
     description='Python loader for the Endoscopic Content Area (ECA) dataset.',
     author='Charlie Budd',
     author_email='charles.budd@kcl.ac.uk',
