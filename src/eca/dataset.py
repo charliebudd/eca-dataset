@@ -5,24 +5,42 @@ from math import sqrt, floor
 from PIL import Image
 
 class DataSource(Flag):
+    """Flag to indicate origin dataset."""
     CHOLEC = auto()
     ROBUST = auto()
     BOTH = CHOLEC | ROBUST
 
 class AnnotationType(Flag):
+    """Flag to indicate type of annotation."""
     AREA = auto()
     MASK = auto()
     BOTH = AREA | MASK
 
 class ECADataset():
-    def __init__(self, data_directory="eca-data", data_source=DataSource.BOTH, annotation_type=AnnotationType.AREA, include_cropped=True, include_source_info=False) -> None:
+    """
+    Dataloader for the ECA dataset.
+
+    Args:
+        data_directory: root directory of the ECA data.
+        data_source: flag denoting the origin dataset(s) samples will be taken from.
+        annotation_type: flag denoting the type of annotation(s) provided.
+        include_cropped: whether or not to include additional cropped samples.
+        include_source_info: whether or not to include the source information of the sample.
+    """
+    def __init__(
+        self,
+        data_directory: str = "eca-data",
+        data_source: DataSource = DataSource.BOTH,
+        annotation_type: AnnotationType = AnnotationType.AREA,
+        include_cropped: bool = True,
+        include_source_info: bool = False
+    ) -> None:
         super().__init__()
         self.data_directory = data_directory
         self.annotation_type = annotation_type
         self.data_source = data_source
         self.include_cropped = include_cropped
         self.include_source_info = include_source_info
-
         try:
             self.sample_list = self.__get_sample_list()
         except FileNotFoundError:

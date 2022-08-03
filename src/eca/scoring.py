@@ -1,4 +1,5 @@
 import numpy as np
+from typing import Sequence, Optional, Tuple
 
 class Line():
     def __init__(self, a, b) -> None:
@@ -179,7 +180,26 @@ def get_smallest_dist(polygon, point):
             other_point = closest
     return smallest_dist, other_point
 
-def content_area_hausdorff(circle_a, circle_b, frame_size, n_points=100, normalise=True):
+def content_area_hausdorff(
+    circle_a: Optional[Sequence[int]],
+    circle_b: Optional[Sequence[int]],
+    frame_size: Sequence[int],
+    n_points: int = 100,
+    normalise: bool = True
+) -> Tuple[float, Optional[Sequence[Sequence[int]]]]:
+    """
+    Hausdorff distance between two content areas.
+
+    Args:
+        circle_a: circle for the first content area (can be None).
+        circle_b: circle for the second content area (can be None).
+        frame_size: size of the image in question.
+        n_points: number of points used when discretising the edges of the content areas.
+        normalise: whether or not to normalise the result as if the image were 1080x1920.
+    Returns:
+        float: score in pixels (optionally normalised)
+        tuple: the coordinates of the two points found to give the final score.
+    """
 
     if (circle_a == circle_b):
         return 0.0, None
