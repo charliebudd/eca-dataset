@@ -49,7 +49,7 @@ jobs:
       - name: Install Test Dependencies
         run: pip install parameterized git+https://github.com/deepmind/surface-distance.git
       - name: Install Package from PyPI
-        run: pip install --extra-index-url https://test.pypi.org/simple/ ecadataset
+        run: pip install --extra-index-url https://test.pypi.org/simple/ ecadataset==${GITHUB_REF#refs/*/v}
       - name: Download Dataset
         run: ecadataset download -u ${{ secrets.SYNAPSE_USERNAME }} -p ${{ secrets.SYNAPSE_PASSWORD }}
       - name: Run Tests
@@ -74,7 +74,7 @@ jobs:
       - name: Install Test Dependencies
         run: pip install parameterized git+https://github.com/deepmind/surface-distance.git
       - name: Install Package from PyPI
-        run: pip install ecadataset
+        run: pip install ecadataset==${GITHUB_REF#refs/*/v}
       - name: Download Dataset
         run: ecadataset download -u ${{ secrets.SYNAPSE_USERNAME }} -p ${{ secrets.SYNAPSE_PASSWORD }}
       - name: Run Tests
