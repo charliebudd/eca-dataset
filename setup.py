@@ -17,6 +17,6 @@ setup(
     license='MIT',
     package_dir={'':'src'},
     packages=['ecadataset'],
-    scripts=['bin/download-eca'],
+    scripts=['bin/ecadataset'],
     install_requires=['synapseclient', 'pillow', 'numpy']
 )

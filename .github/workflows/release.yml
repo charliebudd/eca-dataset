@@ -25,7 +25,7 @@ jobs:
       - name: Install Package from Local
         run: pip install .
       - name: Download Dataset
-        run: download-eca -u ${{ secrets.SYNAPSE_USERNAME }} -p ${{ secrets.SYNAPSE_PASSWORD }}
+        run: ecadataset download -u ${{ secrets.SYNAPSE_USERNAME }} -p ${{ secrets.SYNAPSE_PASSWORD }}
       - name: Run Tests
         run: python -m unittest
 
@@ -51,7 +51,7 @@ jobs:
       - name: Install Package from PyPI
         run: pip install --extra-index-url https://test.pypi.org/simple/ ecadataset
       - name: Download Dataset
-        run: download-eca -u ${{ secrets.SYNAPSE_USERNAME }} -p ${{ secrets.SYNAPSE_PASSWORD }}
+        run: ecadataset download -u ${{ secrets.SYNAPSE_USERNAME }} -p ${{ secrets.SYNAPSE_PASSWORD }}
       - name: Run Tests
         run: python -m unittest
 
@@ -76,6 +76,6 @@ jobs:
       - name: Install Package from PyPI
         run: pip install ecadataset
       - name: Download Dataset
-        run: download-eca -u ${{ secrets.SYNAPSE_USERNAME }} -p ${{ secrets.SYNAPSE_PASSWORD }}
+        run: ecadataset download -u ${{ secrets.SYNAPSE_USERNAME }} -p ${{ secrets.SYNAPSE_PASSWORD }}
       - name: Run Tests
         run: python -m unittest

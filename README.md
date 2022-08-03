@@ -10,9 +10,13 @@ pip install ecadataset
 ```
 and run the download command...
 ```bash
-download-eca -d path/to/dataset
+ecadataset download -d path/to/dataset
 ```
-You'll be prompted for your synapse credentials and the data will be downloaded.
+You'll be prompted for your synapse credentials and the data will be downloaded. 
+You may also check an existing copy of the dataset with the check command...
+```bash
+ecadataset check -d path/to/dataset
+```
 
 ## Usage
 

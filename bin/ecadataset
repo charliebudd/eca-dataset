@@ -1,11 +1,13 @@
 #!/usr/bin/env python
-
+import argparse
 import synapseclient
 import synapseutils
 from getpass import getpass
 from os import devnull
 from contextlib import redirect_stdout
-import argparse
+from glob import glob
+from json import load
+from os.path import exists
 
 ECA_SYNAPSE_ID = "syn32148000"
 
@@ -24,10 +26,40 @@ def download(dataset_path, username, password):
         synapseutils.syncFromSynapse(syn, ECA_SYNAPSE_ID, path=dataset_path, manifest="suppress")
     print("Download finished.\n")
 
+def check(dataset_path):
+    print("Checking for missing files in \"" + dataset_path + "\".")
+
+    manifest_files = glob(dataset_path + "/*/manifest.json")
+    if len(manifest_files) < 2:
+        print("Missing manifest files detected!")
+        return
+    samples = []
+    for manifest_file in manifest_files:
+        with open(manifest_file) as file:
+            samples += load(file)
+
+    for sample in samples:
+        image_exists = exists(dataset_path + "/" + sample["image_file"])
+        mask_exists = exists(dataset_path + "/" + sample["mask_file"])
+        if not image_exists or not mask_exists:
+            print("Missing samples detected!")
+            return
+
+    print("Dataset is complete.")
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
+    parser.add_argument(nargs=1, dest='command', default=None, choices=["download", "check"])
     parser.add_argument('-d', '--dir', dest='directory', default="eca-data", help="The directory to download the dataset to", metavar="\b")
     parser.add_argument('-u', '--user', dest='username', default=None, help="Synapse username", metavar="\b")
     parser.add_argument('-p', '--pass', dest='password', default=None, help="Synapse password", metavar="\b")
     args = parser.parse_args()
-    download(args.directory, args.username, args.password)
+
+    args.command = args.command[0]
+
+    if args.command == "download":
+        download(args.directory, args.username, args.password)
+    elif args.command == "check":
+        check(args.directory)
+    else:
+        raise Exception("Invalid command! Options are \"download\", and \"check\".")
