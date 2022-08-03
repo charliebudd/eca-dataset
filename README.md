@@ -18,7 +18,7 @@ You'll be prompted for your synapse credentials and the data will be downloaded.
 
 ```python
 import matplotlib.pyplot as plt
-from eca import ECADataset, DataSource, AnnotationType, content_area_hausdorff
+from ecadataset import ECADataset, DataSource, AnnotationType, content_area_hausdorff
 
 # Create dataset object...
 dataset = ECADataset(

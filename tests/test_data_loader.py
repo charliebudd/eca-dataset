@@ -3,7 +3,7 @@ import unittest
 from PIL import Image
 from typing import Sequence
 
-from eca import ECADataset, DataSource, AnnotationType
+from ecadataset import ECADataset, DataSource, AnnotationType
 
 CHOLEC_SAMPLE_COUNT = 3929
 ROBUST_SAMPLE_COUNT = 2994

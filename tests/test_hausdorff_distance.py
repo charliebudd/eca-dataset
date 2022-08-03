@@ -4,7 +4,7 @@ from parameterized import parameterized
 import surface_distance
 import numpy as np
 
-from eca import content_area_hausdorff
+from ecadataset import content_area_hausdorff
 
 TEST_PARAMETERS = [
     (None, None, (270, 480)),

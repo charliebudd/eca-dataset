@@ -16,7 +16,7 @@ setup(
     url='https://github.com/charliebudd/eca-dataset',
     license='MIT',
     package_dir={'':'src'},
-    packages=['eca'],
+    packages=['ecadataset'],
     scripts=['bin/download-eca'],
     install_requires=['synapseclient', 'pillow', 'numpy']
 )

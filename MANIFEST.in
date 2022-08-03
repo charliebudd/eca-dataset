@@ -1,2 +1,2 @@
 include versioneer.py
-include src/eca/_version.py
+include src/ecadataset/_version.py

@@ -1,1 +1,1 @@
-src/eca/_version.py export-subst
+src/ecadataset/_version.py export-subst
