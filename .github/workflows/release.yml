@@ -46,10 +46,13 @@ jobs:
           user: __token__
           password: ${{ secrets.TEST_PYPI_API_TOKEN }}
           repository_url: https://test.pypi.org/legacy/
+      - name: Sleep for 30 seconds
+        run: sleep 30s
+        shell: bash
       - name: Install Test Dependencies
         run: pip install parameterized git+https://github.com/deepmind/surface-distance.git
       - name: Install Package from PyPI
-        run: pip install --extra-index-url https://test.pypi.org/simple/ ecadataset==${GITHUB_REF#refs/*/v}
+        run: pip install --extra-index-url https://test.pypi.org/simple/ --no-cache-dir ecadataset==${GITHUB_REF#refs/*/v}
       - name: Download Dataset
         run: ecadataset download -u ${{ secrets.SYNAPSE_USERNAME }} -p ${{ secrets.SYNAPSE_PASSWORD }}
       - name: Run Tests
@@ -71,10 +74,13 @@ jobs:
         with:
           user: __token__
           password: ${{ secrets.PYPI_API_TOKEN }}
+      - name: Sleep for 30 seconds
+        run: sleep 30s
+        shell: bash
       - name: Install Test Dependencies
         run: pip install parameterized git+https://github.com/deepmind/surface-distance.git
       - name: Install Package from PyPI
-        run: pip install ecadataset==${GITHUB_REF#refs/*/v}
+        run: pip install --no-cache-dir ecadataset==${GITHUB_REF#refs/*/v}
       - name: Download Dataset
         run: ecadataset download -u ${{ secrets.SYNAPSE_USERNAME }} -p ${{ secrets.SYNAPSE_PASSWORD }}
       - name: Run Tests
