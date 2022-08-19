@@ -93,10 +93,8 @@ def make_polygon(frame_size, circle):
         d = np.sqrt(r**2 - (y - 0)**2)
         if x-d > 0: intersections.append((x-d, 0)); is_line.append(True)
         if x+d < w: intersections.append((x+d, 0)); is_line.append(False)
-        if len(is_line) == 0:
-            intersections.append((w, 0)); is_line.append(True)
 
-    if len(is_line) > 0 and is_line[-1]:
+    if y-r < 0 and len(is_line) == 0 or len(is_line) > 0 and is_line[-1]:
         intersections.append((w, 0)); is_line.append(True)
     
     # Right edge
