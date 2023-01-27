@@ -1,5 +1,13 @@
 # Endoscopic Content Area (ECA) dataset
-A simple python loader for the [Endoscopic Content Area (ECA) dataset](https://doi.org/10.7303/syn32148000). An implementation of the [hausdorff distance](https://en.wikipedia.org/wiki/Hausdorff_distance), optimised for content areas, is also included in the package.
+A simple python loader for the [Endoscopic Content Area (ECA) dataset](https://doi.org/10.7303/syn32148000). An implementation of the [hausdorff distance](https://en.wikipedia.org/wiki/Hausdorff_distance), optimised for content areas, is also included in the package. The dataset was created and used to test our content area detection package [torchcontentarea](https://github.com/charliebudd/torch-content-area). Both the dataset and detection algorithm are released alongside our publication:
+
+<ul><b>Rapid and robust endoscopic content area estimation: A lean GPU-based pipeline and curated benchmark dataset</b><br>
+    Charlie Budd, Luis C. Garcia-Peraza-Herrera, Martin Huber, Sebastien Ourselin, Tom Vercauteren.<br>
+    [ <a href="https://arxiv.org/abs/2210.14771">arXiv</a> ] 
+    [ <a href="https://doi.org/10.1080/21681163.2022.2156393">publication</a> ]
+</ul>
+
+If you make use of this work, please cite the paper.
 
 [![Build Status](https://github.com/charliebudd/eca-dataset/actions/workflows/release.yml/badge.svg)](https://github.com/charliebudd/eca-dataset/actions/workflows/release.yml)
 
